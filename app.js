@@ -2,8 +2,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const router = express.Router();
+var bodyParser = require('body-parser')
 
 app.use(express.static(__dirname + '/public'));
+
+app.use(express.urlencoded({
+  extended: true
+}))
 
 
 app.use(
@@ -28,6 +33,16 @@ router.get('/about',function(req,res){
 router.get('/contact',function(req,res){
   res.sendFile(path.join(__dirname+'/contact.html'));
 });
+
+app.post('/rsvp', (req,res)=> {
+  const name = req.body.name
+  const email = req.body.email
+  console.log(name);
+  console.log(email);
+  res.sendFile(path.join(__dirname+'/thankyou.html'));
+  // res.sendFile(path.join(__dirname+'/thanks.html'));
+});
+
 
 //add the router
 app.use('/', router);
