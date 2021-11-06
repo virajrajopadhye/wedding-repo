@@ -3,6 +3,25 @@ const app = express();
 const path = require('path');
 const router = express.Router();
 var bodyParser = require('body-parser')
+const AWS = require('aws-sdk'); 
+const mysql = require('mysql');
+const { count } = require('console');
+
+
+
+const con = mysql.createConnection({
+  host: "rsvp.csg1xdllrsjy.us-east-1.rds.amazonaws.com",
+  user: "admin",
+  password: "password"
+});
+
+con.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+  console.log
+});
+
+
 
 app.use(express.static(__dirname + '/public'));
 
@@ -39,9 +58,36 @@ app.post('/rsvp', (req,res)=> {
   const email = req.body.email
   console.log(name);
   console.log(email);
-  res.sendFile(path.join(__dirname+'/thankyou.html'));
-  // res.sendFile(path.join(__dirname+'/thanks.html'));
+
+  var sql= 'INSERT INTO invitation.attendees (atName, email) VALUES (?,?)';
+
+    con.query(sql, [name, email], function(error, result, fields) {
+      
+      //if (err) console.log(err)
+      if (result) console.log("success");
+      res.sendFile(path.join(__dirname+'/thankyou.html'));
+      if (fields) console.log(fields);
+    });
+
 });
+
+
+app.get('/attendees', (req, res) => {
+  con.connect(function(err) {
+    var sql= 'SELECT * FROM invitation.attendees';
+      con.query(sql, function(err, result, fields) {
+       
+          if (err) res.send(err);
+          if (result){
+
+            console.log(result);
+            res.render('results.pug',{data : result, count: result.length});
+
+          }
+      });
+  });
+});
+
 
 
 //add the router

@@ -1,0 +1,16 @@
+
+doctype html
+html(lang="en")
+  head
+    title= 'List of attendees'
+  body
+  h1 Total count: #{count}
+
+  table(style='width:50%', border='1')
+    tr
+      th Name
+      th Email
+    each val in data
+      tr
+        td #{val.atName} 
+        td #{val.email}
