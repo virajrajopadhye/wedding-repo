@@ -8,11 +8,10 @@ const mysql = require('mysql');
 const { count } = require('console');
 
 
-
 const con = mysql.createConnection({
   host: "rsvp.csg1xdllrsjy.us-east-1.rds.amazonaws.com",
   user: "admin",
-  password: "password"
+  password: process.env.PASSWORD
 });
 
 con.connect(function(err) {
@@ -89,9 +88,36 @@ app.get('/attendees', (req, res) => {
 });
 
 
+app.post('/message', (req,res)=> {
+  const fname = req.body.fname
+  const lname = req.body.lname
+  const email = req.body.email
+  const subject = req.body.subject
+  const message = req.body.message
+  console.log(fname);
+  console.log(email);
+
+  var sql= 'INSERT INTO invitation.wishes (fname, lname, email, subject, message) VALUES (?,?,?,?,?)';
+
+    con.query(sql, [fname, lname, email, subject, message], function(error, result, fields) {
+      
+      //if (err) console.log(err)
+      if (result) console.log("success");
+      res.sendFile(path.join(__dirname+'/thankyou.html'));
+      if (fields) console.log(fields);
+    });
+
+});
+
+
+
+
+
+
+
 
 //add the router
 app.use('/', router);
-app.listen(process.env.port || 3000);
+app.listen(process.env.port || 80);
 
-console.log('Running at Port 3000');
+console.log('Running at Port 80');
