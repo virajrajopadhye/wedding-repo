@@ -4,9 +4,13 @@
     "body-parser": "^1.19.0",
     "bootstrap": "^5.1.3",
     "express": "^4.17.1",
+    "forever-monitor": "^3.0.3",
     "jquery": "^3.6.0",
     "mysql": "^2.18.1",
     "pug": "^3.0.2",
     "simplycountdown.js": "^1.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
   }
 }
