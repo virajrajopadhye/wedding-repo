@@ -1,0 +1,21 @@
+doctype html
+html(lang="en")
+  head
+    title= 'List of attendees'
+  body
+  h1 Total wishes: #{count}
+
+  table(style='width:50%', border='1')
+    tr
+      th First Name
+      th Last Name
+      th Email
+      th Subject
+      th Message
+    each val in data
+      tr
+        td #{val.fname} 
+        td #{val.lname}
+        td #{val.email}
+        td #{val.subject}
+        td #{val.message}

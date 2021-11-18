@@ -109,7 +109,21 @@ app.post('/message', (req,res)=> {
 
 });
 
+app.get('/viewMessages', (req, res) => {
+  con.connect(function(err) {
+    var sql= 'SELECT * FROM invitation.wishes';
+      con.query(sql, function(err, result, fields) {
+       
+          if (err) res.send(err);
+          if (result){
 
+            console.log(result);
+            res.render('messages.pug',{data : result, count: result.length});
+
+          }
+      });
+  });
+});
 
 
 
